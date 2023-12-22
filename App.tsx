@@ -1,26 +1,66 @@
 import {
-  ActivityIndicator,
+  ActivityIndicator, Button,
   FlatList,
   SafeAreaView,
   StyleSheet,
   View
 } from 'react-native';
-import useFetch from "./useFetch";
+import useFetch, {get} from "./useFetch";
 import Pokemon from "./Pokemon";
 import {BaseType, PokemonList} from "./types";
+import {useCallback, useEffect, useState} from "react";
 
 export default function App() {
-  const {data: pokemonList} = useFetch<PokemonList>('pokemon');
+  const {data} = useFetch<PokemonList>('pokemon');
+  const [loadingMore, setLoadingMore] = useState<boolean>(false);
+  const [pokemonList, setPokemonList] = useState<PokemonList | null>(null);
+
+  useEffect(() => {
+    if (!data) return;
+    setPokemonList(data);
+  }, [data]);
+
+  const renderFooter = useCallback(() => {
+    if (!pokemonList?.next) return;
+
+    return (
+      <View>
+        <Button
+          disabled={loadingMore}
+          onPress={loadMore}
+          title={"Load More"}
+        >
+        </Button>
+      </View>
+    );
+  }, [loadingMore, pokemonList?.next]);
+
+  const renderItem = ({item, index}: {item: BaseType, index: number}) => {
+    return <Pokemon name={item.name} key={index} />;
+  };
+
+  async function loadMore() {
+    setLoadingMore(true);
+    const {count, next, previous, results} = await get<PokemonList>(pokemonList?.next);
+
+    setPokemonList((prev: PokemonList) => {
+      const newData: BaseType[] = prev ? [...prev.results, ...results]: results;
+      return {
+        count,
+        next,
+        previous,
+        results: newData
+      }
+    });
+
+    setLoadingMore(false);
+  }
 
   if (pokemonList === null) return (
     <View style={styles.container}>
       <ActivityIndicator/>
     </View>
   );
-
-  const renderItem = ({item, index}: {item: BaseType, index: number}) => {
-    return <Pokemon name={item.name} key={index} />;
-  };
 
   return (
     <SafeAreaView style={{paddingTop: 50, paddingHorizontal: 10}}>
@@ -30,6 +70,7 @@ export default function App() {
         contentContainerStyle={styles.contentContainer}
         renderItem={renderItem}
         keyExtractor={(_, index) => index.toString()}
+        ListFooterComponent={renderFooter}
       />
     </SafeAreaView>
   );

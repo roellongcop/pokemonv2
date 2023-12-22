@@ -24,11 +24,6 @@ function Pokemon({name}: Props) {
 
   useEffect(() => {
     if (!pokemon) return;
-    setImageSource({uri: pokemon.sprites.other.home.front_default})
-  }, [pokemon?.sprites.other.home.front_default]);
-
-  useEffect(() => {
-    if (!pokemon) return;
     const type = pokemon.types[0].type.name;
 
     switch (type) {
@@ -71,7 +66,10 @@ function Pokemon({name}: Props) {
   }, [pokemon?.types[0].type.name]);
 
   if (pokemon === null) return (
-    <Skeleton show={true} style={styles.container}/>
+    <Skeleton show={true} style={[styles.container, {
+      marginBottom: 15,
+      height: 112
+    }]}/>
   );
 
   const renderStats = ({stat, base_stat}: Stat, index: number) => {
@@ -104,6 +102,9 @@ function Pokemon({name}: Props) {
             <Image
               style={styles.image}
               source={imageSource}
+              onLoadEnd={() => {
+                setImageSource({uri: pokemon.sprites.other.home.front_default})
+              }}
             />
           </View>
         </View>
