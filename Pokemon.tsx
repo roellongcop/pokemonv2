@@ -71,7 +71,7 @@ function Pokemon({name}: Props) {
   }, [pokemon?.types[0].type.name]);
 
   if (pokemon === null) return (
-    <Skeleton show={true} style={[styles.container, {marginBottom: 15, height: 112}]}/>
+    <Skeleton show={true} style={[styles.container, styles.skeletonStyle]}/>
   );
 
   const renderStats = ({stat, base_stat}: Stat, index: number) => {
@@ -89,8 +89,8 @@ function Pokemon({name}: Props) {
       <ImageBackground
         source={backgroundSource}
         resizeMode="cover"
-        style={{ padding: 5 }}
-        imageStyle={{ borderRadius: 10 }}
+        style={styles.imageBackgroundStyle}
+        imageStyle={styles.imageStyle}
       >
         <View style={styles.headContainer}>
           <Text style={styles.name}>{pokemon.name}</Text>
@@ -113,6 +113,16 @@ function Pokemon({name}: Props) {
 }
 
 const styles = StyleSheet.create({
+  skeletonStyle: {
+    marginBottom: 15,
+    height: 112
+  },
+  imageStyle: {
+    borderRadius: 10
+  },
+  imageBackgroundStyle: {
+    padding: 5
+  },
   image: {
     width: 80,
     height: 80,

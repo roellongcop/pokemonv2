@@ -35,7 +35,7 @@ export default function App() {
   }, [loadingMore, pokemonList?.next]);
 
   const renderItem = ({item, index}: {item: BaseType, index: number}) => {
-    return <Pokemon name={item.name} key={index} />;
+    return <Pokemon name={item.name} key={index.toString()} />;
   };
 
   async function loadMore() {
