@@ -29,8 +29,7 @@ export default function App() {
           disabled={loadingMore}
           onPress={loadMore}
           title={"Load More"}
-        >
-        </Button>
+        />
       </View>
     );
   }, [loadingMore, pokemonList?.next]);
