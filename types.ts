@@ -112,21 +112,48 @@ export type Sprite = Image & {
   versions: SpriteVersion;
 }
 
+export type HeldItem = {
+  item: BaseType;
+  version_details: {
+    rarity: number;
+    version: BaseType;
+  }
+}
+
+export type Ability = {
+  ability: BaseType;
+  is_hidden: boolean;
+  slot: number;
+}
+
+export type PastAbility = {
+  abilities: Ability[];
+  generation: BaseType;
+}
+
+export type PastType = {
+  generation: BaseType;
+  types: {
+    slot: number;
+    type: BaseType;
+  }
+}
+
 export type PokemonDetail = {
   abilities: BaseType[];
   base_experience: number;
   forms: BaseType[];
   game_indices: GameIndex[];
   height: number;
-  held_items: any[];
+  held_items: HeldItem[];
   id: number;
   is_default: boolean;
   location_area_encounters: string;
   moves: Move[];
   name: string;
   order: number;
-  past_abilities: any[];
-  past_types: any[];
+  past_abilities: PastAbility[];
+  past_types: PastType[];
   species: BaseType;
   sprites: Sprite;
   stats: Stat[];

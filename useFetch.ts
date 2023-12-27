@@ -1,13 +1,13 @@
 import {useEffect, useState} from "react";
 
-const API = "https://pokeapi.co/api/v2/";
+export const API = "https://pokeapi.co/api/v2/";
 
 export async function get<T>(url: string) {
   try {
     const data = await fetch(url);
-    const response = await data.json();
+    const response: T = await data.json();
 
-    return response as T;
+    return response;
   }
   catch (error: any) {
     console.log('error', error)
