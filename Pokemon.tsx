@@ -1,11 +1,11 @@
 import {
+  Image,
   ImageBackground,
   ImageSourcePropType,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-  Image
+  View
 } from 'react-native';
 import {memo, useEffect, useState} from "react";
 import {useFetch} from "./hooks";
@@ -30,9 +30,8 @@ function Pokemon({name}: Props) {
 
   useEffect(() => {
     if (!pokemon) return;
-    const type = pokemon.types[0].type.name;
-    const bg = getPokemonBackground(type);
-    setBackgroundSource(bg);
+    const background = getPokemonBackground(pokemon.types[0].type.name);
+    setBackgroundSource(background);
   }, [pokemon?.types[0].type.name]);
 
   if (pokemon === null) return (
