@@ -18,7 +18,6 @@ interface Props {
 }
 
 function Pokemon({name}: Props) {
-
   const {data: pokemon} = useFetch<PokemonDetail>(`pokemon/${name}`);
   const [imageSource, setImageSource] = useState<ImageSourcePropType | null>(null);
   const [backgroundSource, setBackgroundSource] = useState<ImageSourcePropType | null>(null);
