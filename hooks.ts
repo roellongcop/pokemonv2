@@ -14,7 +14,7 @@ export async function get<T>(url: string) {
   }
 }
 
-export default function useFetch<T>(url: string) {
+export function useFetch<T>(url: string) {
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 

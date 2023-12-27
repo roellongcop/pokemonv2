@@ -8,9 +8,10 @@ import {
   Image
 } from 'react-native';
 import {memo, useEffect, useState} from "react";
-import useFetch from "./useFetch";
+import {useFetch} from "./hooks";
 import {PokemonDetail, Stat} from "./types";
 import Skeleton from "./Skeleton";
+import {getPokemonBackground} from "./utilities";
 
 interface Props {
   name: string;
@@ -19,8 +20,8 @@ interface Props {
 function Pokemon({name}: Props) {
 
   const {data: pokemon} = useFetch<PokemonDetail>(`pokemon/${name}`);
-  const [imageSource, setImageSource] = useState<ImageSourcePropType>(require("./assets/icon.png"));
-  const [backgroundSource, setBackgroundSource] = useState<ImageSourcePropType>(require("./assets/water.png"));
+  const [imageSource, setImageSource] = useState<ImageSourcePropType | null>(null);
+  const [backgroundSource, setBackgroundSource] = useState<ImageSourcePropType | null>(null);
 
   useEffect(() => {
     if (!pokemon) return;
@@ -30,44 +31,8 @@ function Pokemon({name}: Props) {
   useEffect(() => {
     if (!pokemon) return;
     const type = pokemon.types[0].type.name;
-
-    switch (type) {
-      case "normal":
-        setBackgroundSource(require("./assets/normal.png"));
-        break;
-      case "fighting":
-      case "ghost":
-      case "unknown":
-        setBackgroundSource(require("./assets/fighting.png"));
-        break;
-      case "water":
-      case "flying":
-      case "electric":
-      case "ice":
-        setBackgroundSource(require("./assets/water.png"));
-        break;
-      case "fire":
-      case "steel":
-      case "dragon":
-        setBackgroundSource(require("./assets/fire.png"));
-        break;
-      case "grass":
-      case "psychic":
-      case "fairy":
-        setBackgroundSource(require("./assets/grass.png"));
-        break;
-      case "bug":
-      case "poison":
-      case "ground":
-      case "rock":
-      case "shadow":
-      case "dark":
-        setBackgroundSource(require("./assets/bug.png"));
-        break;
-      default:
-        setBackgroundSource(require("./assets/water.png"));
-        break;
-    }
+    const bg = getPokemonBackground(type);
+    setBackgroundSource(bg);
   }, [pokemon?.types[0].type.name]);
 
   if (pokemon === null) return (

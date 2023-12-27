@@ -5,7 +5,7 @@ import {
   StyleSheet,
   View
 } from 'react-native';
-import useFetch, {get} from "./useFetch";
+import {get, useFetch} from "./hooks";
 import Pokemon from "./Pokemon";
 import {BaseType, PokemonList} from "./types";
 import {useCallback, useEffect, useState} from "react";
