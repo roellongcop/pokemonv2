@@ -34,7 +34,7 @@ function PokemonCard({name}: Props) {
   }, [pokemon?.types[0].type.name]);
 
   if (pokemon === null) return (
-    <Skeleton show={true} style={[styles.container, styles.skeletonStyle]}/>
+    <Skeleton show={true} style={[styles.skeletonStyle]}/>
   );
 
   const renderStats = ({stat, base_stat}: Stat, index: number) => {
@@ -77,8 +77,12 @@ function PokemonCard({name}: Props) {
 
 const styles = StyleSheet.create({
   skeletonStyle: {
-    marginBottom: 15,
-    height: 112
+    marginVertical: 5,
+    height: 112,
+    borderRadius: 10,
+    justifyContent: "center",
+    width: "48%",
+    marginHorizontal: "1%"
   },
   imageStyle: {
     borderRadius: 10
@@ -101,8 +105,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginHorizontal: 5,
     marginVertical: -3,
-    width: "48%", // Adjust the width as needed
-    height: 130, // Adjust the height as needed
+    width: "48%",
+    height: 130,
   },
   headContainer: {
     display: "flex",
