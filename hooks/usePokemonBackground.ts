@@ -12,8 +12,7 @@ export function usePokemonBackground(pokemon: PokemonDetail) {
   const [backgroundSource, setBackgroundSource] = useState<ImageSourcePropType | null>(null);
 
   useEffect(() => {
-    if (!pokemon) return;
-    const background = getPokemonBackground(pokemon.types[0].type.name);
+    const background = getPokemonBackground(pokemon?.types[0].type.name);
     setBackgroundSource(background);
   }, [pokemon?.types[0].type.name]);
 

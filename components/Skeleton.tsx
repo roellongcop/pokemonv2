@@ -4,13 +4,13 @@ import {memo} from "react";
 
 interface Props {
   style?: StyleProp<any>;
-  show: boolean;
+  show?: boolean;
   children?: React.ReactNode;
   height?: number | string;
   width?: number | string;
 }
 function Skeleton(props: Props) {
-  const {style = {}, show = false, children, height = "100%", width = "100%"} = props;
+  const {style = {}, show = true, children, height = "100%", width = "100%"} = props;
 
   const animatedValue = new Animated.Value(0);
 

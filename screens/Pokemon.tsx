@@ -1,4 +1,4 @@
-import {Image, ImageBackground, StyleSheet, Text} from "react-native";
+import {Image, StyleSheet, Text, View} from "react-native";
 import Skeleton from "../components/Skeleton";
 import {PokemonDetail} from "../types";
 import {useFetch} from "../hooks/useFetch";
@@ -9,31 +9,42 @@ interface Props {
   name: string;
 }
 
-function Pokemon({name}: Props) {
+function Pokemon({route}) {
+  const {name} = route.params satisfies Props;
   const {data: pokemon} = useFetch<PokemonDetail>(`pokemon/${name}`);
   const imageSource = usePokemonImage(pokemon);
   const backgroundSource = usePokemonBackground(pokemon);
 
   if (pokemon === null) return (
-    <Skeleton show={true} style={{}}/>
+    <Skeleton/>
   );
 
   return (
-    <ImageBackground
-      source={backgroundSource}
-      resizeMode="cover"
-    >
+    <View style={styles.container}>
+      <Image
+        style={styles.imageBackground}
+        source={backgroundSource}
+      />
       <Image
         style={styles.image}
         source={imageSource}
       />
       <Text>{pokemon.name}</Text>
       <Text >{pokemon.types[0].type.name}</Text>
-    </ImageBackground>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "red"
+  },
+  imageBackground: {
+    alignSelf: "flex-start",
+    width: "100%",
+    resizeMode: "contain"
+  },
   image: {
     width: 80,
     height: 80,
