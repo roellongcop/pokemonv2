@@ -16,9 +16,10 @@ import {getPokemonBackground} from "../utilities";
 
 interface Props {
   name: string;
+  onClick: (name: string) => void;
 }
 
-function PokemonCard({name}: Props) {
+function PokemonCard({name, onClick}: Props) {
   const {data: pokemon} = useFetch<PokemonDetail>(`pokemon/${name}`);
   const [imageSource, setImageSource] = useState<ImageSourcePropType | null>(null);
   const [backgroundSource, setBackgroundSource] = useState<ImageSourcePropType | null>(null);
@@ -43,12 +44,16 @@ function PokemonCard({name}: Props) {
     setBackgroundSource(background);
   }, [pokemon?.types[0].type.name]);
 
+  function onPress() {
+    onClick(pokemon.name);
+  }
+
   if (pokemon === null) return (
     <Skeleton show={true} style={[styles.skeletonStyle]}/>
   );
 
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <ImageBackground
         source={backgroundSource}
         resizeMode="cover"
