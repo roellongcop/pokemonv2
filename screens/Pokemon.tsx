@@ -53,9 +53,11 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     height: "25%",
     position: "absolute",
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
   image: {
-    marginTop: "10%",
+    marginTop: "5%",
     width: 250,
     height: 250,
   },
