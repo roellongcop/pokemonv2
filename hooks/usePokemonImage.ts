@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {ImageSourcePropType} from "react-native";
-import {PokemonDetail} from "../types";
+import {PokemonDetail} from "../types/pokemon";
 
 export function usePokemonImage(pokemon: PokemonDetail) {
   const [imageSource, setImageSource] = useState<ImageSourcePropType | null>(null);

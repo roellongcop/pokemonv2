@@ -1,4 +1,4 @@
-import {BaseType, PokemonList} from "../types";
+import {BaseType, PokemonList} from "../types/pokemon";
 import {useCallback, useEffect, useState} from "react";
 import {ActivityIndicator, Button, FlatList, StyleSheet, View} from "react-native";
 import PokemonCard from "../components/PokemonCard";

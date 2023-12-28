@@ -8,7 +8,7 @@ import {
   View
 } from 'react-native';
 import {memo} from "react";
-import {PokemonDetail, Stat} from "../types";
+import {PokemonDetail, Stat} from "../types/pokemon";
 import Skeleton from "./Skeleton";
 import {useFetch} from "../hooks/useFetch";
 import {usePokemonImage} from "../hooks/usePokemonImage";

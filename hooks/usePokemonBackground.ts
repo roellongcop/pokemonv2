@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {ImageSourcePropType} from "react-native";
-import {PokemonDetail} from "../types";
+import {PokemonDetail} from "../types/pokemon";
 import normal from "assets/normal.png";
 import fighting from "assets/fighting.png";
 import water from "assets/water.png";

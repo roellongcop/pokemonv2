@@ -1,6 +1,6 @@
 import {Image, StyleSheet, Text, View} from "react-native";
 import Skeleton from "../components/Skeleton";
-import {PokemonDetail} from "../types";
+import {PokemonDetail} from "../types/pokemon";
 import {useFetch} from "../hooks/useFetch";
 import {usePokemonImage} from "../hooks/usePokemonImage";
 import {usePokemonBackground} from "../hooks/usePokemonBackground";
@@ -25,10 +25,12 @@ function Pokemon({route}) {
         style={styles.imageBackground}
         source={backgroundSource}
       />
-      <Image
-        style={styles.image}
-        source={imageSource}
-      />
+      <View style={styles.mainImageContainer}>
+        <Image
+          style={styles.image}
+          source={imageSource}
+        />
+      </View>
       <Text>{pokemon.name}</Text>
       <Text >{pokemon.types[0].type.name}</Text>
     </View>
@@ -38,16 +40,24 @@ function Pokemon({route}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "red"
+  },
+  mainImageContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    width: "100%",
+    alignItems: "center",
   },
   imageBackground: {
-    alignSelf: "flex-start",
     width: "100%",
-    resizeMode: "contain"
+    resizeMode: "cover",
+    height: "25%",
+    position: "absolute",
   },
   image: {
-    width: 80,
-    height: 80,
+    marginTop: "10%",
+    width: 250,
+    height: 250,
   },
 });
 
