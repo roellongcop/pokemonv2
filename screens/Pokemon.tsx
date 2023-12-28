@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, View} from "react-native";
+import {Image, ImageBackground, StyleSheet, Text, View} from "react-native";
 import Skeleton from "../components/Skeleton";
 import {PokemonDetail} from "../types/pokemon";
 import {useFetch} from "../hooks/useFetch";
@@ -25,18 +25,19 @@ function Pokemon({route, navigation}) {
 
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.imageBackground}
+      <ImageBackground
         source={backgroundSource}
-      />
+        resizeMode="cover"
+        style={styles.imageBackground}
+      >
+      <Text >{pokemon.types[0].type.name}</Text>
       <View style={styles.mainImageContainer}>
         <Image
           style={styles.image}
           source={{uri: pokemon.sprites.other.home.front_default}}
         />
       </View>
-      <Text>{pokemon.name}</Text>
-      <Text >{pokemon.types[0].type.name}</Text>
+      </ImageBackground>
     </View>
   );
 }
@@ -54,8 +55,7 @@ const styles = StyleSheet.create({
   },
   imageBackground: {
     width: "100%",
-    resizeMode: "cover",
-    height: "25%",
+    height: "50%",
     position: "absolute",
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
