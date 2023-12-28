@@ -1,9 +1,10 @@
-import {get, useFetch} from "../hooks";
 import {BaseType, PokemonList} from "../types";
 import {useCallback, useEffect, useState} from "react";
 import {ActivityIndicator, Button, FlatList, StyleSheet, View} from "react-native";
 import PokemonCard from "../components/PokemonCard";
 import {Screens} from "../constants/screens";
+import {useFetch} from "../hooks/useFetch";
+import {get} from "../utilities/api";
 
 function Pokemons({navigation}) {
   const {data} = useFetch<PokemonList>('pokemon');

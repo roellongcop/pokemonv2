@@ -1,19 +1,5 @@
 import {useEffect, useState} from "react";
-
-export const API = "https://pokeapi.co/api/v2/";
-
-export async function get<T>(url: string) {
-  try {
-    const data = await fetch(url);
-    const response: T = await data.json();
-
-    return response;
-  }
-  catch (error: any) {
-    console.log('error', error);
-    return null;
-  }
-}
+import {get} from "../utilities/api";
 
 export function useFetch<T>(url: string) {
   const [data, setData] = useState<T | null>(null);
@@ -23,7 +9,7 @@ export function useFetch<T>(url: string) {
     if (!url) return;
     (async() => {
       setIsLoading(true);
-      const result = await get<T>(`${API}${url}`);
+      const result = await get<T>(url, false);
       setData(result);
       setIsLoading(false);
     })();

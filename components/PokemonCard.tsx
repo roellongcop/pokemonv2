@@ -2,17 +2,17 @@ import {
   FlatList,
   Image,
   ImageBackground,
-  ImageSourcePropType,
   StyleSheet,
   Text,
   TouchableOpacity,
   View
 } from 'react-native';
-import {memo, useEffect, useState} from "react";
-import {useFetch} from "../hooks";
+import {memo} from "react";
 import {PokemonDetail, Stat} from "../types";
 import Skeleton from "./Skeleton";
-import {getPokemonBackground} from "../utilities";
+import {useFetch} from "../hooks/useFetch";
+import {usePokemonImage} from "../hooks/usePokemonImage";
+import {usePokemonBackground} from "../hooks/usePokemonBackground";
 
 interface Props {
   name: string;
@@ -21,8 +21,8 @@ interface Props {
 
 function PokemonCard({name, onClick}: Props) {
   const {data: pokemon} = useFetch<PokemonDetail>(`pokemon/${name}`);
-  const [imageSource, setImageSource] = useState<ImageSourcePropType | null>(null);
-  const [backgroundSource, setBackgroundSource] = useState<ImageSourcePropType | null>(null);
+  const imageSource = usePokemonImage(pokemon);
+  const backgroundSource = usePokemonBackground(pokemon);
   const renderStats = ({item}: {item: Stat}) => {
     if (item.stat.name === "special-attack") return;
     if (item.stat.name === "special-defense") return;
@@ -32,17 +32,6 @@ function PokemonCard({name, onClick}: Props) {
       </Text>
     )
   };
-
-  useEffect(() => {
-    if (!pokemon) return;
-    setImageSource({uri: pokemon.sprites.other.home.front_default})
-  }, [pokemon?.sprites.other.home.front_default]);
-
-  useEffect(() => {
-    if (!pokemon) return;
-    const background = getPokemonBackground(pokemon.types[0].type.name);
-    setBackgroundSource(background);
-  }, [pokemon?.types[0].type.name]);
 
   function onPress() {
     onClick(pokemon.name);
