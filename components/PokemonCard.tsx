@@ -33,16 +33,12 @@ function PokemonCard({name, onClick}: Props) {
     )
   };
 
-  function onPress() {
-    onClick(pokemon.name);
-  }
-
   if (pokemon === null) return (
     <Skeleton show={true} style={[styles.skeletonStyle]}/>
   );
 
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <TouchableOpacity style={styles.container} onPress={() => onClick(pokemon.name)}>
       <ImageBackground
         source={backgroundSource}
         resizeMode="cover"
