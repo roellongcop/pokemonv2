@@ -13,11 +13,7 @@ import {PokemonDetail, Stat} from "./types";
 import Skeleton from "./Skeleton";
 import {getPokemonBackground} from "./utilities";
 
-interface Props {
-  name: string;
-}
-
-function Pokemon({name}: Props) {
+function Pokemon({name}: Pick<PokemonDetail, "name">) {
   const {data: pokemon} = useFetch<PokemonDetail>(`pokemon/${name}`);
   const [imageSource, setImageSource] = useState<ImageSourcePropType | null>(null);
   const [backgroundSource, setBackgroundSource] = useState<ImageSourcePropType | null>(null);
