@@ -10,7 +10,8 @@ export async function get<T>(url: string) {
     return response;
   }
   catch (error: any) {
-    console.log('error', error)
+    console.log('error', error);
+    return null;
   }
 }
 

@@ -8,12 +8,16 @@ import {
   View
 } from 'react-native';
 import {memo, useEffect, useState} from "react";
-import {useFetch} from "./hooks";
-import {PokemonDetail, Stat} from "./types";
+import {useFetch} from "../hooks";
+import {PokemonDetail, Stat} from "../types";
 import Skeleton from "./Skeleton";
-import {getPokemonBackground} from "./utilities";
+import {getPokemonBackground} from "../utilities";
 
-function Pokemon({name}: Pick<PokemonDetail, "name">) {
+interface Props {
+  name: string;
+}
+
+function PokemonCard({name}: Props) {
   const {data: pokemon} = useFetch<PokemonDetail>(`pokemon/${name}`);
   const [imageSource, setImageSource] = useState<ImageSourcePropType | null>(null);
   const [backgroundSource, setBackgroundSource] = useState<ImageSourcePropType | null>(null);
@@ -127,4 +131,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(Pokemon)
+export default memo(PokemonCard);
