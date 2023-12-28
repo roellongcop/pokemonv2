@@ -1,4 +1,5 @@
 import {
+  FlatList,
   Image,
   ImageBackground,
   ImageSourcePropType,
@@ -21,6 +22,15 @@ function PokemonCard({name}: Props) {
   const {data: pokemon} = useFetch<PokemonDetail>(`pokemon/${name}`);
   const [imageSource, setImageSource] = useState<ImageSourcePropType | null>(null);
   const [backgroundSource, setBackgroundSource] = useState<ImageSourcePropType | null>(null);
+  const renderStats = ({item}: {item: Stat}) => {
+    if (item.stat.name === "special-attack") return;
+    if (item.stat.name === "special-defense") return;
+    return (
+      <Text style={styles.stats}>
+        {item.stat.name}: {item.base_stat}
+      </Text>
+    )
+  };
 
   useEffect(() => {
     if (!pokemon) return;
@@ -37,16 +47,6 @@ function PokemonCard({name}: Props) {
     <Skeleton show={true} style={[styles.skeletonStyle]}/>
   );
 
-  const renderStats = ({stat, base_stat}: Stat, index: number) => {
-    if (stat.name == "special-attack") return;
-    if (stat.name == "special-defense") return;
-    return (
-      <Text key={index.toString()} style={styles.stats}>
-        {stat.name}: {base_stat}
-      </Text>
-    );
-  };
-
   return (
     <TouchableOpacity style={styles.container}>
       <ImageBackground
@@ -61,7 +61,11 @@ function PokemonCard({name}: Props) {
         </View>
         <View style={styles.contentContainer}>
           <View>
-            {pokemon.stats.map((stat: Stat, index) => renderStats(stat, index))}
+            <FlatList
+              data={pokemon.stats}
+              renderItem={renderStats}
+              keyExtractor={(_, index) => `pokemon-stat-${index.toString()}`}
+            />
           </View>
           <View>
             <Image

@@ -21,8 +21,8 @@ function Pokemons() {
       </View>
     );
   }, [loadingMore, pokemonList?.next]);
-  const renderItem = ({item, index}: {item: BaseType, index: number}) => {
-    return <PokemonCard name={item.name} key={index.toString()} />;
+  const renderItem = ({item}: {item: BaseType}) => {
+    return <PokemonCard name={item.name}/>;
   };
 
   useEffect(() => {
