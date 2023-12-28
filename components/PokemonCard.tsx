@@ -1,44 +1,33 @@
-import {
-  FlatList,
-  Image,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import {Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {memo} from "react";
 import {PokemonDetail, Stat} from "../types/pokemon";
 import Skeleton from "./Skeleton";
 import {useFetch} from "../hooks/useFetch";
-import {usePokemonImage} from "../hooks/usePokemonImage";
-import {usePokemonBackground} from "../hooks/usePokemonBackground";
+import {getPokemonBackground} from "../utilities/getPokemonBackground";
+import {useNavigation} from "@react-navigation/native";
+import {Screens} from "../constants/screens";
+import {NavigationType} from "../types/NavigationType";
 
 interface Props {
   name: string;
-  onClick: (name: string) => void;
 }
 
-function PokemonCard({name, onClick}: Props) {
+function PokemonCard({name}: Props) {
+  const navigation: NavigationType = useNavigation();
   const {data: pokemon} = useFetch<PokemonDetail>(`pokemon/${name}`);
-  const imageSource = usePokemonImage(pokemon);
-  const backgroundSource = usePokemonBackground(pokemon);
-  const renderStats = ({item}: {item: Stat}) => {
-    if (item.stat.name === "special-attack") return;
-    if (item.stat.name === "special-defense") return;
-    return (
-      <Text style={styles.stats}>
-        {item.stat.name}: {item.base_stat}
-      </Text>
-    )
-  };
+
+  function onPress() {
+    navigation.navigate(Screens.Pokemon, {name: pokemon.name});
+  }
 
   if (pokemon === null) return (
     <Skeleton show={true} style={[styles.skeletonStyle]}/>
   );
 
+  const backgroundSource = getPokemonBackground(pokemon.types[0].type.name);
+
   return (
-    <TouchableOpacity style={styles.container} onPress={() => onClick(pokemon.name)}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <ImageBackground
         source={backgroundSource}
         resizeMode="cover"
@@ -51,16 +40,20 @@ function PokemonCard({name, onClick}: Props) {
         </View>
         <View style={styles.contentContainer}>
           <View>
-            <FlatList
-              data={pokemon.stats}
-              renderItem={renderStats}
-              keyExtractor={(_, index) => `pokemon-stat-${index.toString()}`}
-            />
+            {pokemon.stats.map(({stat, base_stat}: Stat, index: number) => {
+              if (stat.name === "special-attack") return;
+              if (stat.name === "special-defense") return;
+              return (
+                <Text style={styles.stats} key={`pokemon-${pokemon.name}-stat-${index.toString()}`}>
+                  {stat.name}: {base_stat}
+                </Text>
+              )
+            })}
           </View>
           <View>
             <Image
               style={styles.image}
-              source={imageSource}
+              source={{uri: pokemon.sprites.other.home.front_default}}
             />
           </View>
         </View>

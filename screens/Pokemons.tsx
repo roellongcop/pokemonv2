@@ -2,11 +2,10 @@ import {BaseType, PokemonList} from "../types/pokemon";
 import {useCallback, useEffect, useState} from "react";
 import {ActivityIndicator, Button, FlatList, StyleSheet, View} from "react-native";
 import PokemonCard from "../components/PokemonCard";
-import {Screens} from "../constants/screens";
 import {useFetch} from "../hooks/useFetch";
 import {get} from "../utilities/api";
 
-function Pokemons({navigation}) {
+function Pokemons() {
   const {data} = useFetch<PokemonList>('pokemon');
   const [loadingMore, setLoadingMore] = useState<boolean>(false);
   const [pokemonList, setPokemonList] = useState<PokemonList | null>(null);
@@ -22,14 +21,9 @@ function Pokemons({navigation}) {
       </View>
     );
   }, [loadingMore, pokemonList?.next]);
-  const renderItem = ({item}: {item: BaseType}) => {
-    return (
-      <PokemonCard
-        name={item.name}
-        onClick={(name: string) => navigation.navigate(Screens.Pokemon, {name})}
-      />
-    )
-  };
+  const renderItem = ({item}: {item: BaseType}) => (
+    <PokemonCard name={item.name}/>
+  );
 
   useEffect(() => {
     if (!data) return;

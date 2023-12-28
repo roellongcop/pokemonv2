@@ -2,22 +2,26 @@ import {Image, StyleSheet, Text, View} from "react-native";
 import Skeleton from "../components/Skeleton";
 import {PokemonDetail} from "../types/pokemon";
 import {useFetch} from "../hooks/useFetch";
-import {usePokemonImage} from "../hooks/usePokemonImage";
-import {usePokemonBackground} from "../hooks/usePokemonBackground";
+import {getPokemonBackground} from "../utilities/getPokemonBackground";
+import {useEffect} from "react";
 
 interface Props {
   name: string;
 }
 
-function Pokemon({route}) {
+function Pokemon({route, navigation}) {
   const {name} = route.params satisfies Props;
   const {data: pokemon} = useFetch<PokemonDetail>(`pokemon/${name}`);
-  const imageSource = usePokemonImage(pokemon);
-  const backgroundSource = usePokemonBackground(pokemon);
+
+  useEffect(() => {
+    navigation.setOptions({headerTitle: name});
+  }, [navigation]);
 
   if (pokemon === null) return (
     <Skeleton/>
   );
+
+  const backgroundSource = getPokemonBackground(pokemon.types[0].type.name);
 
   return (
     <View style={styles.container}>
@@ -28,7 +32,7 @@ function Pokemon({route}) {
       <View style={styles.mainImageContainer}>
         <Image
           style={styles.image}
-          source={imageSource}
+          source={{uri: pokemon.sprites.other.home.front_default}}
         />
       </View>
       <Text>{pokemon.name}</Text>
