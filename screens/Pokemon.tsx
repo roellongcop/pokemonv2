@@ -4,13 +4,15 @@ import {PokemonDetail} from "../types/pokemon";
 import {useFetch} from "../hooks/useFetch";
 import {getPokemonBackground} from "../utilities/getPokemonBackground";
 import {useEffect} from "react";
+import {NavigationType} from "../types/NavigationType";
+import {useNavigation} from "@react-navigation/native";
 
 interface Props {
   name: string;
 }
 
-function Pokemon({route, navigation}) {
-  const {name} = route.params satisfies Props;
+function Pokemon({name}: Props) {
+  const navigation: NavigationType = useNavigation();
   const {data: pokemon} = useFetch<PokemonDetail>(`pokemon/${name}`);
 
   useEffect(() => {
